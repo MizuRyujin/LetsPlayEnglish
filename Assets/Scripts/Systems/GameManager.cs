@@ -5,9 +5,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public bool IsPaused { get; private set; }
+    public TurnManager TurnManager { get; private set; }
 
     public event Action OnPauseGame;
     public event Action OnStartLevel;
+
+    private int numberOfTeams;
 
 
     /// <summary>
@@ -30,13 +33,18 @@ public class GameManager : MonoBehaviour
     private void Initialize()
     {
         Cursor.lockState = CursorLockMode.Confined;
-        IsPaused = true;
+        IsPaused = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         KeyboardPause();
+
+        if (TurnManager != null)
+        {
+            TurnManager.UpdateTurnManager();
+        }
     }
 
     private void KeyboardPause()
@@ -48,15 +56,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void LoadLevel(int buildIndex)
+    public void LoadGameMode(int buildIndex)
     {
-
+        TurnManager = new TurnManager(this, numberOfTeams, 40);
     }
 
     public void StartGame()
     {
-
+        TurnManager.StartTurn();
     }
+
     public void PauseResumeGame()
     {
         IsPaused = !IsPaused;
