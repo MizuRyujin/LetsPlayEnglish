@@ -21,8 +21,15 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Plays an AudioClip on a specific AudioSource
+    /// </summary>
+    /// <param name="clip">The clip to be played.</param>
+    /// <param name="type">Type of AudioSource (SFX or others). Default as Default Type.</param>
+    /// <param name="cutPrevious">Should the previous clip be stopped. Default as False.</param>
     public void PlayClip(AudioClip clip, AudioSourceType type = AudioSourceType.Default, bool cutPrevious = false)
     {
+        // Behave differently if a source type is specified
         switch (type)
         {
             case AudioSourceType.SFX:
